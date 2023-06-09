@@ -4,37 +4,43 @@ using UnityEngine;
 
 public class Playermovement : MonoBehaviour
 {
-    public float velocidade = 5f; // Velocidade de movimento do carro
-
-    public float velocidadeRotacao = 200f; // Velocidade de rotação do carro
+    public float MotorForce, Steerforce, BrakeForce;
+    public WheelCollider Roda_FR_E, Roda_FR_D, Roda_TR_E, Roda_TR_D; 
 
     void Update()
-    {
-        float movimentoVertical = 0f; // Armazena o valor do movimento vertical
-        float movimentoHorizontal = 0f; // Armazena o valor do movimento horizontal
+    {   
+        //Detetar o teclado
+        float movimentoVertical = Input.GetAxis("Vertical") * MotorForce;
+        float movimentoHorizontal = Input.GetAxis("Horizontal") * Steerforce;
 
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            movimentoVertical = 1f; // Define o movimento para frente
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            movimentoVertical = -1f; // Define o movimento para trás
-        }
+        Roda_TR_D.motorTorque = movimentoVertical;
+        Roda_TR_E.motorTorque = movimentoVertical;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        Roda_FR_D.steerAngle = movimentoHorizontal;
+        Roda_FR_E.steerAngle = movimentoHorizontal;
+
+        //Trava o carro
+        if (Input.GetKey(KeyCode.DownArrow))
         {
-            movimentoHorizontal = -1f; // Define o movimento para a esquerda
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            movimentoHorizontal = 1f; // Define o movimento para a direita
+            Roda_TR_D.brakeTorque = BrakeForce;
+            Roda_TR_E.brakeTorque = BrakeForce;
         }
 
-        Vector3 movimento = new Vector3(movimentoHorizontal, 0f, movimentoVertical); // Cria um vetor de movimento
-        float rotacao = movimentoHorizontal * velocidadeRotacao * Time.deltaTime; // Calcula o valor de rotação
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Roda_TR_D.brakeTorque = 0;
+            Roda_TR_E.brakeTorque = 0;
+        }
 
-        transform.Translate(movimento * velocidade * Time.deltaTime); // Move o objeto ao longo do vetor de movimento
-        transform.Rotate(0f, rotacao, 0f); // Aplica a rotação ao objeto do carro
+        if(Input.GetAxis("Vertical") == 0)
+        {
+            Roda_TR_D.brakeTorque = BrakeForce;
+            Roda_TR_E.brakeTorque = BrakeForce;
+        }else
+        {
+            Roda_TR_D.brakeTorque = 0;
+            Roda_TR_E.brakeTorque = 0;
+        }
+
     }
 }
