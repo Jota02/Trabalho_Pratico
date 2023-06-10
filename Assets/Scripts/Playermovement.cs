@@ -4,43 +4,41 @@ using UnityEngine;
 
 public class Playermovement : MonoBehaviour
 {
-    public float MotorForce, Steerforce, BrakeForce;
-    public WheelCollider Roda_FR_E, Roda_FR_D, Roda_TR_E, Roda_TR_D; 
+    public float acceleration;
+    public float maxSpeed;
+    public float rotationSpeed;
 
-    void Update()
-    {   
-        //Detetar o teclado
-        float movimentoVertical = Input.GetAxis("Vertical") * MotorForce;
-        float movimentoHorizontal = Input.GetAxis("Horizontal") * Steerforce;
+    private Rigidbody rb;
 
-        Roda_TR_D.motorTorque = movimentoVertical;
-        Roda_TR_E.motorTorque = movimentoVertical;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; // Impede a rotação indesejada no eixo X e Z
 
-        Roda_FR_D.steerAngle = movimentoHorizontal;
-        Roda_FR_E.steerAngle = movimentoHorizontal;
+        // Adicionar um Collider ao objeto do carro
+        BoxCollider carCollider = gameObject.AddComponent<BoxCollider>();
+        carCollider.center = new Vector3(0f, 0.5f, 0f); // Ajuste o centro do Collider conforme necessário
+        carCollider.size = new Vector3(1.8f, 1f, 4f); // Ajuste o tamanho do Collider conforme necessário
+    }
 
-        //Trava o carro
-        if (Input.GetKey(KeyCode.DownArrow))
+    private void FixedUpdate()
+    {
+        // Movimentação para frente e para trás
+        float verticalInput = Input.GetAxis("Vertical");
+        float speed = verticalInput * acceleration * Time.deltaTime;
+
+        // Limitar a velocidade máxima
+        if (speed > maxSpeed)
         {
-            Roda_TR_D.brakeTorque = BrakeForce;
-            Roda_TR_E.brakeTorque = BrakeForce;
+            speed = maxSpeed;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Roda_TR_D.brakeTorque = 0;
-            Roda_TR_E.brakeTorque = 0;
-        }
+        // Rotação
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float rotation = horizontalInput * rotationSpeed * Time.deltaTime;
 
-        if(Input.GetAxis("Vertical") == 0)
-        {
-            Roda_TR_D.brakeTorque = BrakeForce;
-            Roda_TR_E.brakeTorque = BrakeForce;
-        }else
-        {
-            Roda_TR_D.brakeTorque = 0;
-            Roda_TR_E.brakeTorque = 0;
-        }
-
+        // Aplicar movimento e rotação ao objeto do carro
+        transform.Translate(0f, 0f, speed);
+        transform.Rotate(0f, rotation, 0f);
     }
 }
