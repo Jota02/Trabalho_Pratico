@@ -10,6 +10,7 @@ public class ContagemRegressiva : MonoBehaviour
     public bool emContagem;
     [Range(3,10)] public int numero_voltas = 3;
     public GameObject painel;
+    public GameObject painel1;
 
     float setcont;
     // Start is called before the first frame update
@@ -41,6 +42,7 @@ public class ContagemRegressiva : MonoBehaviour
     {
         Texto.enabled = emContagem;
         painel.SetActive(!emContagem);
+        painel1.SetActive(!emContagem);
     }
 
     // Update is called once per frame
