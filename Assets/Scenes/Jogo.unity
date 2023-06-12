@@ -1013,8 +1013,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   voltas: 0
-  TextoVoltas: {fileID: 1865460324}
-  TextoVoltasPrevistas: {fileID: 1164850807}
+  TextoVoltas: {fileID: 1658712812}
+  TextoVoltasPrevistas: {fileID: 178033792}
   nMaxVoltas: 1
   finalizado: 0
 --- !u!224 &202157475
@@ -4303,8 +4303,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   voltas1: 0
-  TextoVoltas1: {fileID: 1658712812}
-  TextoVoltasPrevistas1: {fileID: 178033792}
+  TextoVoltas1: {fileID: 1865460324}
+  TextoVoltasPrevistas1: {fileID: 1164850807}
   nMaxVoltas1: 1
   finalizado1: 0
 --- !u!4 &1151254419 stripped
