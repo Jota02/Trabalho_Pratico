@@ -20,23 +20,26 @@ public class CheckPointFinal : MonoBehaviour
 
     void incremento(){
         
-        if(carro1){
-            if(!contado && contagem.voltas < contagem.nMaxVoltas){
-                contagem.voltas++; 
-                contado = true;
-            }else if(!contado && contagem.voltas == contagem.nMaxVoltas){
-                contagem.finalizado = true;
-            }
-        }else if(carro2){
-            if(!contado1 && contagem1.voltas1 < contagem1.nMaxVoltas1){
-                contagem1.voltas1++; 
-                contado1 = true;
-            }else if(!contado1 && contagem1.voltas1 == contagem1.nMaxVoltas1){
-                contagem1.finalizado1 = true;
-            }
+        if(!contado && contagem.voltas < contagem.nMaxVoltas){
+            contagem.voltas++; 
+            contado = true;
+        }else if(!contado && contagem.voltas == contagem.nMaxVoltas){
+            contagem.finalizado = true;
         }
-
-        if(contagem.finalizado && contagem1.finalizado1){
+        
+        if(contagem.finalizado || contagem1.finalizado1){
+            FinalizarJogo();
+        }
+    }
+    void incremento1(){
+    
+        if(!contado1 && contagem1.voltas1 < contagem1.nMaxVoltas1){
+            contagem1.voltas1++; 
+            contado1 = true;
+        }else if(!contado1 && contagem1.voltas1 == contagem1.nMaxVoltas1){
+            contagem1.finalizado1 = true;
+        }
+        if(contagem.finalizado || contagem1.finalizado1){
             FinalizarJogo();
         }
     }
@@ -49,7 +52,7 @@ public class CheckPointFinal : MonoBehaviour
                 Active.SetActive(true);
                 break;
             case "Carro2":
-                incremento();
+                incremento1();
                 Active1.SetActive(true);
                 break;
         }
